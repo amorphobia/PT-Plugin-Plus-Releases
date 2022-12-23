@@ -1,0 +1,25 @@
+name: GitHub Page
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - .github/workflows/build.yml
+      - public/*
+
+jobs:
+  publish:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Deploy
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        commit-message: 'publish: generate github pages'
+        branch: gh-pages
+        folder: 'public'
